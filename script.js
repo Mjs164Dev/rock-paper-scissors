@@ -39,33 +39,19 @@ function playRound() {
     console.log("COMPUTER: " + computerSelection);
     console.log("PLAYER: " + userSelection);
 
-    if (computerSelection === userSelection) {
+    if (userSelection === computerSelection) {
         alert("It's a tie! Replay.");
         return playRound();
     }
-    else if (computerSelection === "paper" && userSelection === "rock") {
-        alert("Computer Wins!");
-        computerScore = computerScore + 1;
-    }
-    else if (computerSelection === "scissors" && userSelection === "rock") {
+    else if (userSelection === 'rock' && computerSelection === 'scissors'
+    || userSelection === 'paper' && computerSelection === 'rock'
+    || userSelection === 'scissors' && computerSelection === 'paper') {
         alert("Player Wins!");
         playerScore = playerScore + 1;
-    }
-    else if (computerSelection === "rock" && userSelection === "paper") {
-        alert("Player Wins!");
-        playerScore = playerScore + 1;
-    }
-    else if (computerSelection === "scissors" && userSelection === "paper") {
-        alert("Computer Wins!");
-        computerScore = computerScore + 1;
-    }
-    else if (computerSelection === "rock" && userSelection === "scissors") {
-        alert("Computer Wins!");
-        computerScore = computerScore + 1;
     }
     else {
-        alert("Player Wins!");
-        playerScore = playerScore + 1;
+        alert("Computer Wins!");
+        computerScore = computerScore + 1;
     }
 
     console.log("Player Score: " + playerScore);
