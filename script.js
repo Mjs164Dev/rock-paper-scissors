@@ -1,6 +1,3 @@
-let playerScore = 0;
-let computerScore = 0;
-
 function getComputerChoice() {
     let computerSelection = Math.ceil(Math.random() * 3);
 
@@ -28,32 +25,45 @@ function getUserChoice() {
     }
 }
 
-function playRound() {
+function game() {
+    
+    let playerScore = 0;
+    let computerScore = 0;
 
-    computerSelection = getComputerChoice();
-    userSelection = getUserChoice();
+    while (playerScore < 3 && computerScore < 3) {
+        
+        function playRound() {
 
-    console.log("PLAYER: " + userSelection);
-    console.log("COMPUTER: " + computerSelection);
-
-    if (userSelection === computerSelection) {
-        alert("It's a tie! Replay.");
-        return playRound();
+            computerSelection = getComputerChoice();
+            userSelection = getUserChoice();
+        
+            console.log("PLAYER: " + userSelection);
+            console.log("COMPUTER: " + computerSelection);
+        
+            if (userSelection === computerSelection) {
+                alert("It's a tie! Replay.");
+                return playRound();
+            }
+            else if (userSelection === 'rock' && computerSelection === 'scissors'
+            || userSelection === 'paper' && computerSelection === 'rock'
+            || userSelection === 'scissors' && computerSelection === 'paper') {
+                alert("Player Wins! " + userSelection + " beats " + computerSelection + ".");
+                playerScore++;
+            }
+            else {
+                alert("Computer Wins! " + computerSelection + " beats " + userSelection + ".");
+                computerScore++;
+            }
+        
+            console.log("Player Score: " + playerScore);
+            console.log("Computer Score: " + computerScore);
+        }
+        
+        playRound();
     }
-    else if (userSelection === 'rock' && computerSelection === 'scissors'
-    || userSelection === 'paper' && computerSelection === 'rock'
-    || userSelection === 'scissors' && computerSelection === 'paper') {
-        alert("Player Wins! " + userSelection + " beats " + computerSelection + ".");
-        playerScore = playerScore + 1;
-    }
-    else {
-        alert("Computer Wins! " + computerSelection + " beats " + userSelection + ".");
-        computerScore = computerScore + 1;
-    }
 
-    console.log("Player Score: " + playerScore);
-    console.log("Computer Score: " + computerScore);
+   playerScore > computerScore ?
+   alert("Player wins the match " + playerScore + " - " + computerScore + "!") :
+   alert("Computer wins the match " + computerScore + " - " + playerScore + "!");
 
 }
-
-//started to get the score counting. need to make game() function and loop until a player reaches 3 wins
