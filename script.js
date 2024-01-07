@@ -1,6 +1,9 @@
+let playerScore = 0;
+let computerScore = 0;
+let gameStatus = '';
+
 function getComputerChoice() {
     let computerSelection = Math.ceil(Math.random() * 3);
-
     if (computerSelection === 1) {
         return computerSelection = "rock";
     }
@@ -12,58 +15,48 @@ function getComputerChoice() {
     }
 }
 
-function getUserChoice() {
-    let userSelection = prompt("Guess ROCK, PAPER, or SCISSORS", "ROCK")
-    userSelection = userSelection.toLowerCase();
+const scoreContainer = document.querySelector('#scoreContainer');
+scoreContainer.textContent = `Player: ${playerScore}:${computerScore} :Computer`;
 
-    if (userSelection != "rock" && userSelection != "paper" && userSelection != "scissors") {
-        alert("That's not an option.");
-        return getUserChoice();
-    }
-    else {
-        return userSelection;
-    }
-}
 
-function game() {
-    
-    let playerScore = 0;
-    let computerScore = 0;
+function playRound() {
 
-    while (playerScore < 3 && computerScore < 3) {
-        
-        function playRound() {
+    if(gameStatus === '') {   
 
-            computerSelection = getComputerChoice();
-            userSelection = getUserChoice();
-        
-            console.log("PLAYER: " + userSelection);
-            console.log("COMPUTER: " + computerSelection);
-        
-            if (userSelection === computerSelection) {
-                alert("It's a tie! Replay.");
-                return playRound();
-            }
-            else if (userSelection === 'rock' && computerSelection === 'scissors'
+        computerSelection = getComputerChoice();
+        if (userSelection === computerSelection) {
+            alert("It's a tie! Replay.");
+        }
+        else if (userSelection === 'rock' && computerSelection === 'scissors'
             || userSelection === 'paper' && computerSelection === 'rock'
             || userSelection === 'scissors' && computerSelection === 'paper') {
-                alert("Player Wins! " + userSelection + " beats " + computerSelection + ".");
-                playerScore++;
-            }
-            else {
-                alert("Computer Wins! " + computerSelection + " beats " + userSelection + ".");
-                computerScore++;
-            }
-        
-            console.log("Player Score: " + playerScore);
-            console.log("Computer Score: " + computerScore);
+            alert(`Player Wins! ${userSelection} beats ${computerSelection}.`);
+            playerScore++;
         }
-        
-        playRound();
+        else {
+            alert(`Computer Wins! ${computerSelection} beats ${userSelection}.`);
+            computerScore++;
+        }
+
+        scoreContainer.textContent = `Player: ${playerScore}:${computerScore} :Computer`;
+
+        if(playerScore === 5 || computerScore === 5) {
+            const winnerContainer = document.querySelector('#winnerContainer');
+            gameStatus = 'over';
+            playerScore > computerScore ?
+                winnerContainer.textContent = 'Player Wins!' :
+                winnerContainer.textContent = 'Computer Wins...' 
+        }
     }
-
-   playerScore > computerScore ?
-   alert("Player wins the match " + playerScore + " - " + computerScore + "!") :
-   alert("Computer wins the match " + computerScore + " - " + playerScore + "!");
-
+    else {
+        const gameStatusContainer = document.querySelector('#gameStatusContainer');
+        gameStatusContainer.textContent = 'Refresh page to play again!';
+    }
 }
+
+document.querySelectorAll('#rock, #paper, #scissors').forEach(button => {
+  button.addEventListener('click', () => {
+    userSelection = button.id;
+    playRound();
+  });
+});
